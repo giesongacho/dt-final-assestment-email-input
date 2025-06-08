@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Spin } from "antd";
 const Search = ({
-  found,
   inputSearch,
   handleEnter,
   filterEmail,
@@ -9,7 +8,10 @@ const Search = ({
   handleId,
   handleSearch,
   loading,
+  handleDelete,
+  origList,
 }) => {
+  const [toggle, setToggle] = useState(false);
   return (
     <div
       className={`${!emailList ? "w-[400px]" : ""} ${
@@ -23,11 +25,34 @@ const Search = ({
               {email ? (
                 <div className=" m-2 w-[1rem]">
                   <div className="rounded-lg flex justify-around items-center">
-                    <div className={`${found ? "" : "bg-red-300"} rounded-md`}>
-                      <span className=" rounded-lg">{email}</span>
+                    <div
+                      className={` ${
+                        origList.includes(email)
+                          ? "hover:bg-slate-300"
+                          : "bg-red-300"
+                      } rounded-md `}
+                    >
+                      <span className="font-semibold rounded-lg p-2">
+                        {email}
+                      </span>
                       &nbsp;
-                      <span className="hover:bg-red-500 hover:text-white  rounded-[50%]  px-1 cursor-pointer">
-                        x
+                      <span
+                        className={` px-2  cursor-pointer font-semibold ${
+                          origList.includes(email)
+                            ? ""
+                            : "text-white rounded-[50%] bg-red-400"
+                        }`}
+                        onClick={() => handleDelete(index)}
+                        onMouseEnter={() => setToggle(true)}
+                        onMouseLeave={() => setToggle(false)}
+                      >
+                        {origList.includes(email) ? (
+                          <>x</>
+                        ) : toggle ? (
+                          <>x</>
+                        ) : (
+                          <>i</>
+                        )}
                       </span>
                     </div>
                   </div>
@@ -57,7 +82,7 @@ const Search = ({
           )}
         </div>
       </div>
-      <ul className="bg-white mt-1 max-h-[5rem] overflow-y-scroll ">
+      <ul className="bg-white mt-1 max-h-[5rem] overflow-y-scroll scroll-smooth">
         {inputSearch
           ? filterEmail.map((emails, index) => (
               <li

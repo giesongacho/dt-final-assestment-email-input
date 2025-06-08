@@ -1,61 +1,41 @@
 import React, { useEffect, useState } from "react";
-// import { data } from "../services/email.js";
+import emails from "../services/email.js";
 import Search from "./Search";
+
 const SearchContainer = () => {
-  const emails = [
-    "ebrekke@gmail.com",
-    "rigoberto.weimann@schuppe.com",
-    "ijakubowski@barton.com",
-    "ivah83@gmail.com",
-    "orville36@gmail.com",
-    "ckoelpin@gutkowski.net",
-    "heath70@hayes.org",
-    "garland.conn@mcclure.com",
-    "harrison01@kshlerin.info",
-    "hkautzer@hotmail.com",
-  ];
   const [email, setEmailList] = useState([]);
   const [inputSearch, setInputSearch] = useState("");
   const [filterEmail, setFilteredEmail] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [found, setFound] = useState(false);
 
   const handleSearch = (e) => {
     setInputSearch(e.target.value);
     setLoading(true);
-    console.log("nag loading");
+
     setTimeout(() => {
       const filteredEmail = emails.filter((email) =>
         email.startsWith(e.target.value)
       );
       setFilteredEmail(filteredEmail);
       setLoading(false);
-      console.log("wal nag loading");
     }, 1000);
   };
 
   const handleEnter = (e) => {
     if (e.key === "Enter" || e.key === "Tab") {
       setEmailList([...email, filterEmail[0]]);
+      setEmailList([...email, inputSearch]);
       setInputSearch("");
-      if (inputSearch) {
-        setEmailList([...email, inputSearch]);
-        const filtered = emails.find((orig) => orig === email);
-        if (!filtered) {
-          setFound(true);
-        }
-      } else {
-        console.log("wala", inputSearch);
-      }
     }
   };
-
   const handleId = (id) => {
     const filterAdd = filterEmail.filter((_, index) => index === id);
     setEmailList([...email, filterAdd[0]]);
     setInputSearch("");
   };
-
+  const handleDelete = (id) => {
+    setEmailList(email.filter((_, index) => index !== id));
+  };
   useEffect(() => {}, []);
   return (
     <div className="flex justify-center items-center h-screen  bg-slate-300">
@@ -69,7 +49,7 @@ const SearchContainer = () => {
         emailList={email}
         handleId={handleId}
         loading={loading}
-        found={found}
+        handleDelete={handleDelete}
       />
     </div>
   );

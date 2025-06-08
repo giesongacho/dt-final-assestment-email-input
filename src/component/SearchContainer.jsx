@@ -22,13 +22,15 @@ const SearchContainer = () => {
 
   const handleSearch = (e) => {
     setInputSearch(e.target.value);
-    setLoading(false);
+    setLoading(true);
+    console.log("nag loading");
     setTimeout(() => {
       const filteredEmail = emails.filter((email) =>
         email.startsWith(e.target.value)
       );
       setFilteredEmail(filteredEmail);
-      setLoading(true);
+      setLoading(false);
+      console.log("wal nag loading");
     }, 1000);
   };
 

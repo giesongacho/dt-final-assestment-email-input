@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Spin } from "antd";
 const Search = ({
   found,
   inputSearch,
@@ -8,6 +8,7 @@ const Search = ({
   emailList,
   handleId,
   handleSearch,
+  loading,
 }) => {
   return (
     <div
@@ -38,16 +39,23 @@ const Search = ({
           );
         })}
 
-        <input
-          placeholder="Enter Recipients"
-          className={`border-t-0 border-l-0 border-r-0 border-b-0 outline-0 pl-2 ${
-            emailList ? "w-[400px]" : ""
-          } ${emailList ? "h-[49.47px]" : ""} `}
-          type="text"
-          value={inputSearch}
-          onChange={handleSearch}
-          onKeyDown={handleEnter}
-        />
+        <div className="flex items-center">
+          <input
+            placeholder="Enter Recipients"
+            className={`border-t-0 border-l-0 border-r-0 border-b-0 outline-0 pl-2 ${
+              emailList ? "w-[400px]" : ""
+            } ${emailList ? "h-[49.47px]" : ""} `}
+            type="text"
+            value={inputSearch}
+            onChange={handleSearch}
+            onKeyDown={handleEnter}
+          />
+          {loading && (
+            <span>
+              <Spin />
+            </span>
+          )}
+        </div>
       </div>
       <ul className="bg-white mt-1 max-h-[5rem] overflow-y-scroll ">
         {inputSearch
